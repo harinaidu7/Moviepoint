@@ -6,15 +6,12 @@
 </template>
 
 <script>
-
-  
 </script>
 
 <style>
- *{
-   font-family: 'Montserrat', sans-serif;
-
- }
+* {
+  font-family: "Montserrat", sans-serif;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -35,7 +32,7 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
-body{
-  background-color: #0b0c10
+body {
+  background-color: #000000;
 }
 </style>
