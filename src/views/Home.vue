@@ -9,7 +9,7 @@
              <!-- search bar start -->
                 <div class="search-div container-fluid d-flex"  @submit.prevent = "handleSubmit">
                     <i class="bi bi-search"></i>
-                    <input class="search"  type="text" v-model="query" @keyup="handleSubmit(query)" spellcheck="false"/><button class="search-button"><a href="#container" v-smooth-scroll>enter..</a></button>
+                    <input class="search"  type="text" v-model="query" @keyup="handleSubmit(query)" spellcheck="false" placeholder="search"/><button class="search-button"><a href="#container" v-smooth-scroll>enter..</a></button>
                 </div>
              <!-- search bar end -->
              <!-- navbar toggle-button-->
@@ -22,7 +22,7 @@
                             <a href="#Home" class="nav-link">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a href="#AboutUs" class="nav-link ">About Us</a>
+                            <a href="#AboutUs" class="nav-link ">About</a>
                         </li>
                         <li class="nav-item">
                             <a href="#Contact" class="nav-link ">Contact</a>
@@ -38,32 +38,36 @@
         <!--navbar end -->
 
         <!-- banner -->
-
         <!-- <section class="hero">
-          
-          <h2>{{this.random.title}}<br/>
-            <h4 class="banner-disc">{{this.random.overview}}</h4>
+                <h2>{{this.random.title}}<br/>
+                  <h4 class="banner-disc">{{this.random.overview}}</h4>
             
-            <div class="d-flex p-2">
-              <div class="col d-flex px-1">
-                <i class="bi bi-play"> play</i>
-                <button class="banner-button">More</button>
-              </div>
-            </div>
-          </h2>
-          
-        </section> -->
-
+                  <div class="d-flex p-2">
+                    <div class="col d-flex px-1">
+                      <i class="bi bi-play"> play</i>
+                      <button class="banner-button">More</button>
+                    </div>
+                  </div>
+                </h2>
+              </section> -->
         <!-- banner end -->
 
         <!-- working banner -->
         <section class="banner-1" v-if="!query">
-          <div class="container-fluid p-0 banner-1">
+          <!-- loader -->
+          <div v-if="loading" class="lds-dual-ring"></div>
+          <!-- loader end -->
+          <div  v-if="!bannerData">
+            <h2>Something went wrong</h2>
+            <h3>{{this.errormsg}} : - < </h3>
+          </div>
+         
+          <div class="container-fluid p-0 banner-1" v-if="bannerData">
             <!-- <div class="d-flex align-item-center justify-content-between"> -->
               <!-- banner img -->
               <img class="banner" :src="'http://image.tmdb.org/t/p/w500/'+this.random.backdrop_path" /> 
               <!-- banner img end -->
-              <!-- banner header and overview       -->
+              <!-- banner header and overview-->
               <div class="text-block">
                 <h2>{{this.random.title}}</h2>  <!--  title-->
                 <p>{{this.random.overview}}</p> <!--  overview-->
@@ -83,8 +87,6 @@
         <!-- working banner end -->
 
 
-
-
         <!-- discription -->
         <!-- <section>
           <div class="container-fluid py-5">
@@ -100,32 +102,41 @@
         <!-- search results -->
         <section>
           <!-- header -->
+          <!-- loader -->
+          <div v-if="loading" class="lds-dual-ring"></div>
+          <!-- loader end -->
+          <!-- error block -->
           <div class="container-fluid p-0" v-if="query">
               <h1 class="display-4">Search result</h1>
+              <div  v-if="!searchData">
+                <h2> Search Result not found</h2>
+                <h3>{{this.errormsg}} : - < !!</h3>  <!-- error message -->
+              </div>
           </div>
+          <!-- error block end-->
           <!-- header end -->
 
          <!-- working modal -->
-         <div class="container-fluid d-flex" id="container">
-
+         <div class="container-fluid d-flex" id="container"> 
           <div class="d-flex flex-row text-center">
             <div class="col-sm-6 col-md-4 col-lg-3 p-3">
-              <b-modal size="md" id="modal-1" :title = 'this.title'>
+              <b-modal size="md" id="modal-1" :title = 'this.title'>   <!-- title -->
                 <div class="d-flex flex-column">
                   <div class="container p-0">
-                    <img class="poster-modal" :src="'http://image.tmdb.org/t/p/w500/'+this.poster" />
+                    <img class="poster-modal" :src="'http://image.tmdb.org/t/p/w500/'+this.poster" />  <!-- fallback img -->
                   </div>
                   <div>
-                    <p  class="overview-modal my-4">{{this.para}}</p>
+                    <p  class="overview-modal my-4">{{this.para}}</p>  <!-- overview -->
                   </div>
                 </div>
               </b-modal>
             </div>
-          </div>
-                    
+          </div>            
         </div>
         <!-- working modal end -->
-        <div class="container-fluid d-flex search-body" v-if="query">
+
+        <!-- movie card-->
+        <div class="container-fluid d-flex search-body" v-if="query"> 
             <div class="row text-center">
                 <div class="col-sm-6 col-md-4 col-lg-3 p-3" v-for="item in data" :key="item.id">
                     <div class="card d-flex">
@@ -158,38 +169,28 @@
             </div>
         </div>
       </section>
-        <!-- Movies section -->
+       <!-- movie card end-->
+    <!-- search result -->
+        
 
-        <!-- <section class="p-5">
-            <div class="container-fluid" >
-                <div class="row p-0 m-0 text-center g-4">
-                    <div class="col-sm-6 col-md-4 col-lg-3" v-for="items in data" :key="items.id">
-                        <div class="card" style="width: 18rem;">
-                            <img class="card-img-top" :src="'http://image.tmdb.org/t/p/w500/'+items.poster_path" alt="Card image cap">
-                            <div class="card-body">
-                              <h5 class="card-title">{{items.title}}</h5>
-                              <p class="card-text"></p>
-                              <a href="#" class="btn btn-primary">Go somewhere</a>
-                            </div>
-                          </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </section> -->
-
-        <!-- top movies -->
-        <section  v-if="!query" >
-
+        <!-- Popular movies -->
+        <section  v-if="!query">
+          <!-- loader -->
+          <div v-if="loading" class="lds-dual-ring"></div>
+          <!-- loader -->
+           
         <!-- header   -->
-            <div >
+            <div>
                 <h1 class="display-4 ">Popular Movies</h1>
+                <div  v-if="!dataFetched">
+                  <h2>Result not found</h2>
+                  <h3>{{this.errormsg}} : - < !!</h3>
+                </div>
             </div>
         <!-- header end-->
 
         <!-- working modal -->
-        <div class="container-fluid d-flex">
+        <div class="container-fluid d-flex"  >
           <div class="d-flex flex-row text-center">
             <div class="col-sm-6 col-md-4 col-lg-3 p-3">
               <b-modal size="md" id="modal-1" :title = 'this.title'>
@@ -237,7 +238,7 @@
                                     <div class="rating p-3">
                                       <div class="rating" >Rating</div>
                                       <div class="d-flex">
-                                       <div class="star"><i id="star" class="bi bi-star-fill" @click="toggle1"></i></div> 
+                                       <div class="star-1"><i id="star" class="bi bi-star-fill" @click="toggle1"></i></div> 
                                         <div class="rating-num">{{item.vote_average}}</div> 
                                       </div>
                                     </div>
@@ -269,7 +270,6 @@ export default {
     return {
       data: [],
       query: "",
-      star: " ",
       bodyBgVariant: "dark",
       // showModal: true,
       // OpenClose: true
@@ -277,6 +277,11 @@ export default {
       para: "",
       title: "",
       random: "",
+      errormsg: " ",
+      dataFetched: "",
+      searchData: "",
+      loading: true,
+      bannerData: "",
     };
   },
 
@@ -287,26 +292,44 @@ export default {
   },
   methods: {
     async getData() {
-      let result = await axios.get(
-        "https://api.themoviedb.org/3/movie/popular?api_key=5e999b2d6beaadc6a81d80f6bc17beb7&language=en-US&page=1"
-      );
-      console.log(result.data);
-      this.data = result.data.results;
-      this.dataFetched = true;
+      try {
+        let result = await axios.get(
+          "https://api.themoviedb.org/3/movie/popular?api_key=5e999b2d6beaadc6a81d80f6bc17beb7&language=en-US&page=1"
+        );
+        console.log(result.data);
+        this.data = result.data.results;
+        this.dataFetched = true;
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+        console.log(error.message);
+        this.errormsg = error.message;
+        this.dataFetched = flase;
+        this.loading = false;
+      }
     },
     async handleSubmit(query) {
-      if (!query) {
-        console.log("query", query);
-        await this.getData();
-      } else {
+      try {
+        if (!query) {
+          console.log("query", query);
+          await this.getData();
+        } else {
           let result = await axios.get(
             "https://api.themoviedb.org/3/search/movie?api_key=5e999b2d6beaadc6a81d80f6bc17beb7&query=" +
               query
           );
           this.data = result.data.results;
           console.log(this.data);
-          console.log(result)
-        
+          console.log(result);
+          this.searchData = true;
+          this.loading = false;
+        }
+      } catch (error) {
+        console.log(error);
+        console.log(error.message);
+        this.errormsg = error.message;
+        this.searchData = false;
+        this.loading = false;
       }
     },
 
@@ -319,13 +342,23 @@ export default {
     },
 
     async randomMovie() {
-      let randomNum = Math.floor(Math.random() * 100);
-      let result = await axios.get(
-        "https://api.themoviedb.org/3/discover/movie?api_key=5e999b2d6beaadc6a81d80f6bc17beb7&language=en-US&include_adult=false&with_genres=28&page=" +
-          randomNum
-      );
-      this.random = result.data.results[0];
-      console.log(this.random);
+      try {
+        let randomNum = Math.floor(Math.random() * 100);
+        let result = await axios.get(
+          "https://api.themoviedb.org/3/discover/movie?api_key=5e999b2d6beaadc6a81d80f6bc17beb7&language=en-US&include_adult=false&with_genres=28&page=" +
+            randomNum
+        );
+        this.random = result.data.results[0];
+        console.log(this.random);
+        this.bannerData = true;
+        this.loading = false;
+      } catch (error) {
+        console.log(error);
+        console.log(error.message);
+        this.errormsg = error.message;
+        this.bannerData = false;
+        this.loading = false;
+      }
     },
 
     scrollToElement() {
@@ -401,8 +434,9 @@ h1 {
 .rating {
   color: #c5c6c7;
 }
-.star {
+.star-1 {
   padding-right: 5px;
+  color: white;
 }
 .rating-num {
   font-size: 17px;
@@ -596,5 +630,29 @@ h4 {
 }
 a {
   text-decoration: none;
+}
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
